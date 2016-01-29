@@ -215,7 +215,7 @@ for i in range(0,test6.columns.size):
     mol2=[test6.iloc[0,i]/test6.loc[test6.index[0],'total']*100]
     mol1.append(mol[-1])
     mol3=mol2+mol[1:-3]+mol1
-    pdb.set_trace()
+#    pdb.set_trace()
     perc.insert(i+i+1,('% '+ str(test6.columns[i])),mol3)
     perc2.insert(i,('% '+ str(test6.columns[i])),mol3)
 #------------------------------------------------------------------------------------------------------------

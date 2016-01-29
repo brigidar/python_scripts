@@ -211,7 +211,7 @@ mu3=mu2.reset_index().groupby('syn?').sum()
 mu_int=df.groupby('syn?').get_group('intergenic')
 counter=0
 for i,n in enumerate(mu_int['snp_total']):
-#    pdb.set_trace()
+    pdb.set_trace()
     if len(n)==2:
         counter+=1
     elif len(n)==3:

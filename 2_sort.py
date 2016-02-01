@@ -3,11 +3,11 @@
 #########################################################################################
 #											#
 # Name	      :	2_sort.py								#
-# Version     : 1.5									#
+# Version     : 1.6									#
 # Project     : sort & merge SNP tables							#
 # Description : Script to sort out no hits, indels, identical lines and double hits		#
 # Author      : Brigida Rusconi								#
-# Date        : January 27th, 2016							#
+# Date        : February 1st, 2016							#
 #											#
 #########################################################################################
 #for replacement of a given value with NaN
@@ -234,16 +234,17 @@ def get_trans_state(base, hit):
     else:
         return "Error [base:%s, hit:%s]" % (base, hit)
 #------------------------------------------------------------------------------------------
-
+indel3=indel2.mask(indel2=='NaN')
+indel4=indel3.dropna()
 #recalculate the transition transversions for new lists in case columns are removed.
 #refbase list
-df4=indel2.loc[:,'refbase']
+df4=indel4.loc[:,'refbase']
 ref_base=[]
 for i in df4:
     ref_base.append(i)
 
 #get alleles for each snp
-qbas=indel2.iloc[:,1:]
+qbas=indel4.iloc[:,1:]
 snp_nb=[]
 for i in range (0,qbas.index.size):
     snp_uniq=[n for n in unique(qbas.iloc[i,:])[:]]
@@ -280,8 +281,7 @@ for i,v in enumerate(trs_trv):
         trs_trv2.append(v)
 
 #------------------------------------------------------------------------------------------
-indel3=indel2.mask(indel2=='NaN')
-indel4=indel3.dropna()
+pdb.set_trace()
 print "removed lines with short alignment %s lines left" % (str(indel4.index.size))
 final2 =indel4.reset_index(drop=True).T #drops indexes of molecule and refpos
 final2=final2.reset_index()

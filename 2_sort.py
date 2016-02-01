@@ -281,7 +281,7 @@ for i,v in enumerate(trs_trv):
         trs_trv2.append(v)
 
 #------------------------------------------------------------------------------------------
-pdb.set_trace()
+#pdb.set_trace()
 print "removed lines with short alignment %s lines left" % (str(indel4.index.size))
 final2 =indel4.reset_index(drop=True).T #drops indexes of molecule and refpos
 final2=final2.reset_index()

@@ -2,11 +2,11 @@
 #########################################################################################
 #											#
 # Name	      :	5_sorting_genotyper2.py								#
-# Version     : 1.4									#
+# Version     : 1.5									#
 # Project     : SNP table downstream analysis						#
 # Description : Script to summarize the genotyper output and classify according to groups etc. for tables that use * instead of Stop for stop codons		#
 # Author      : Brigida Rusconi								#
-# Date        : April 6, 2015							#
+# Date        : February   1st, 2016							#
 #											#
 #########################################################################################
 
@@ -60,16 +60,16 @@ for i in df.groupby('Informative').size():
 
 #amount of genes with gain or kept stop
 st=df.groupby(['gene_name','query_aa']).size().reset_index(level=1)
-stop=[str(st['query_aa'].str.contains('\*').sum())]
+stop=[(st['query_aa'].str.contains('\*').sum())]
 
 #amount of genes with loss or kept stop
 st2=df.groupby(['gene_name','ref_aa']).size().reset_index(level=1)
-stop2=[str(st2['ref_aa'].str.contains('\*').sum())]
+stop2=[(st2['ref_aa'].str.contains('\*').sum())]
 #------------------------------------------------------------------------------------------------------------
 
 #amount of hypothetical genes
 hyp=df.groupby(['gene_name','product']).size().reset_index(level=1)
-hypo=[str(hyp['product'].str.contains('hypothetical').sum())]
+hypo=[(hyp['product'].str.contains('hypothetical').sum())]
 #------------------------------------------------------------------------------------------------------------
 #total amount of genes
 
@@ -79,7 +79,7 @@ for i,v in enumerate(df.groupby('gene_name').size()):
 genes=[count[-1]]
 
 #total amount of multiallelic positions
-multi=[str(df['query_codon'].str.contains('/').sum())]
+multi=[(df['query_codon'].str.contains('/').sum())]
 #------------------------------------------------------------------------------------------------------------
 
 # counting number of transitions transversions:
@@ -211,7 +211,7 @@ mu3=mu2.reset_index().groupby('syn?').sum()
 mu_int=df.groupby('syn?').get_group('intergenic')
 counter=0
 for i,n in enumerate(mu_int['snp_total']):
-    pdb.set_trace()
+    #pdb.set_trace()
     if len(n)==2:
         counter+=1
     elif len(n)==3:
@@ -224,6 +224,7 @@ mu5=mu4.T
 
 test5=concat([test4,mu5], axis=1, join_axes=[test.index])
 test5=test5.T
+pdb.set_trace()
 test5.insert(0,'total',tot)
 col=['SNPs']+[n for n in nl]+['genes']+['stop_gain']+['stop_loss']+['hypothetical proteins']+[n for n in ti_n2]+['multiallelic']
 test5.insert(0, 'header',col)

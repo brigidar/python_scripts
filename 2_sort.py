@@ -27,12 +27,12 @@
 #------------------------------------------------------------------------------------------
 
 
-import argparse, os, sys, csv, IPython
+import argparse, os, sys, csv
 import pandas
 import pdb
 import numpy as np
 from pandas import *
-from IPython import get_ipython
+#from IPython import get_ipython
 import matplotlib.pyplot as plt
 from pandas.util.testing import assert_frame_equal
 from Bio.Seq import Seq

@@ -10,11 +10,11 @@
 #											#
 #########################################################################################
 
-import argparse, os, sys, csv, IPython
+import argparse, os, sys, csv
 import pandas
 import pdb
 from pandas import *
-from IPython import get_ipython
+#from IPython import get_ipython
 import matplotlib.pyplot as plt
 from pandas.util.testing import assert_frame_equal
 
@@ -211,7 +211,11 @@ mu3=mu2.reset_index().groupby('syn?').sum()
 mu_int=df.groupby('syn?').get_group('intergenic')
 counter=0
 for i,n in enumerate(mu_int['snp_total']):
+<<<<<<< HEAD
     #pdb.set_trace()
+=======
+#    pdb.set_trace()
+>>>>>>> origin/master
     if len(n)==2:
         counter+=1
     elif len(n)==3:

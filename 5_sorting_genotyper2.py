@@ -211,11 +211,6 @@ mu3=mu2.reset_index().groupby('syn?').sum()
 mu_int=df.groupby('syn?').get_group('intergenic')
 counter=0
 for i,n in enumerate(mu_int['snp_total']):
-<<<<<<< HEAD
-    #pdb.set_trace()
-=======
-#    pdb.set_trace()
->>>>>>> origin/master
     if len(n)==2:
         counter+=1
     elif len(n)==3:
@@ -228,7 +223,7 @@ mu5=mu4.T
 
 test5=concat([test4,mu5], axis=1, join_axes=[test.index])
 test5=test5.T
-pdb.set_trace()
+#pdb.set_trace()
 test5.insert(0,'total',tot)
 col=['SNPs']+[n for n in nl]+['genes']+['stop_gain']+['stop_loss']+['hypothetical proteins']+[n for n in ti_n2]+['multiallelic']
 test5.insert(0, 'header',col)

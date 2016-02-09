@@ -16,13 +16,12 @@
 
 #------------------------------------------------------------------------------------------
 
-import argparse, os, sys, csv, IPython
+import argparse, os, sys, csv
 import pandas
 import pdb
 import glob
 import Bio
 from pandas import *
-from IPython import get_ipython
 from glob import glob
 from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna

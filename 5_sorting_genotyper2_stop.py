@@ -10,12 +10,10 @@
 #											#
 #########################################################################################
 
-import argparse, os, sys, csv, IPython
+import argparse, os, sys, csv
 import pandas
 import pdb
 from pandas import *
-from IPython import get_ipython
-import matplotlib.pyplot as plt
 from pandas.util.testing import assert_frame_equal
 
 #------------------------------------------------------------------------------------------------------------

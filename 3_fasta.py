@@ -12,12 +12,12 @@
 #########################################################################################
 
 
-import argparse, os, sys, csv, IPython
+import argparse, os, sys, csv
 import pandas
 import pdb
 import Bio
 from pandas import *
-from IPython import get_ipython
+
 from Bio import SeqIO
 
 #------------------------------------------------------------------------------------------

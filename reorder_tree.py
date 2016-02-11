@@ -3,9 +3,9 @@
 # Name	      :	reorder_tree.py							#
 # Version     : 1.0									#
 # Project     : SNP Genotyper							#
-# Description : Script to reorder SNP genotyer output by phylogeny.
+# Description : Script to reorder SNP output by phylogeny.
 # Author      : Brigida Rusconi								#
-# Date        : June 10, 2015							#
+# Date        : Fenruary 10, 2016							#
 #											#
 #########################################################################################
 
@@ -15,12 +15,10 @@
 #!/usr/bin/env python
 
 
-import argparse, os, sys, csv, IPython
+import argparse, os, sys, csv
 import pandas
 import pdb
 from pandas import *
-from IPython import get_ipython
-import matplotlib.pyplot as plt
 from pandas.util.testing import assert_frame_equal
 import Bio
 from Bio import Phylo
@@ -57,25 +55,24 @@ trees=parse_tree(tree1)
 
 #get header with qbase
 count_qbase=df.columns.values
+qnames=[]
 qindexes=[]
 for i, v in enumerate(count_qbase):
     if 'qbase:' in v:
-        qindexes.append(v)
+        qnames.append(v)
+        qindexes.append(i)
 # reorder snp file based on tree
-df2= DataFrame(index=df.index.values)
+df2= df.iloc[:,0:4]
 for name in trees:
-    for i in qindexes:
+    for i in qnames:
         if i.split(':')[1]==name:
             df2=concat([df2,df.loc[:,i]], axis=1)
+df3=concat([df2,df.iloc[:,(qindexes[-1]+1):]], axis=1)
 
-df3=concat([df.iloc[:,:13], df2], axis=1)
-df4=df.iloc[:,(len(qindexes)+13):]
-df5=concat([df3,df4],axis=1)
-df6=df5.drop('snp_total',1)
 
 #save reordered file
 with open(output_file,'w') as output:
-    df6.to_csv(output, sep='\t', index=False)
+    df3.to_csv(output, sep='\t', index=False)
 
 
 

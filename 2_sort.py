@@ -28,12 +28,13 @@
 
 
 import argparse, os, sys, csv
+import pandas
 import pdb
 import numpy as np
 from pandas import *
+from pandas.util.testing import assert_frame_equal
 from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna
-from Bio import SeqIO
 #------------------------------------------------------------------------------------------
 
 
@@ -58,7 +59,7 @@ df=df.set_index(['molecule','refpos'])
 #need to fill na otherwise it cannot do boolean operations
 df=df.fillna('--')
 print "merged table number SNPS " + str(df.index.size)
-#pdb.set_trace()
+
 #------------------------------------------------------------------------------------------
 
 #replaces lines with "No Hits" with NaN and removes lines with NaN in qbase columns

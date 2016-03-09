@@ -7,7 +7,7 @@
 # Project     : sort & merge SNP tables							#
 # Description : Script to sort out no hits, indels, identical lines and double hits		#
 # Author      : Brigida Rusconi								#
-# Date        : March 8th, 2016							#
+# Date        : March 9th, 2016							#
 #											#
 #########################################################################################
 #for replacement of a given value with NaN

@@ -39,8 +39,7 @@ from Bio import SeqIO
 
 #output and input file name to give with the script
 parser = argparse.ArgumentParser()
-
-parser.add_argument('-o', '--output', help="sorted filtered table for fasta")
+parser.add_argument('-o', '--output', help="fasta snps")
 parser.add_argument('-s', '--snp_table', help="snp table to sort")
 parser.add_argument('-t', '--total', help="inverted table to look at", default= "snp_filtered_table.txt")
 
@@ -299,7 +298,7 @@ with open('table', 'w') as t:
     for i in range(0,len(tab2)):
         t.write("\t".join(tab2[i])+"\n")
     with open('table','rU') as input:
-        with open(output2_file,'w') as output:
+        with open(output_file,'w') as output:
             sequences = SeqIO.parse(input, "tab")
             count = SeqIO.write(sequences, output, "fasta")
 

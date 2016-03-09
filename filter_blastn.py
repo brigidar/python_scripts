@@ -7,7 +7,7 @@
 # Project     : sort & merge SNP tables							#
 # Description : find blsatn hits of IS elements in reference genome	#
 # Author      : Brigida Rusconi								#
-# Date        : March 8th, 2016							#
+# Date        : March 9th, 2016							#
 #											#
 #########################################################################################
 #for replacement of a given value with NaN
@@ -31,9 +31,6 @@ import argparse, os, sys, csv
 import pdb
 import numpy as np
 from pandas import *
-from Bio.Seq import Seq
-from Bio.Alphabet import generic_dna
-from Bio import SeqIO
 #------------------------------------------------------------------------------------------
 
 
@@ -54,13 +51,13 @@ input_file = args.blastn
 df =read_csv(input_file,sep='\t', header=None, dtype=object)
 #need to fill na otherwise it cannot do boolean operations
 
-#pdb.set_trace()
+
 for i in range(0,df.index.size):
     if float(df.iloc[i,3])/float(df.iloc[i,23])<0.5:
         df.iloc[i,3]=0
 
 df2=df[df.iloc[:,3]>0]
-#pdb.set_trace()
+
 df3=concat([df2.iloc[:,0],df2.iloc[:,6:8]], axis=1)
 new_index=[]
 new_index2=[]
@@ -71,29 +68,30 @@ for i in range(0,df3.index.size):
         new_index2.append(df3.index[i])
 
 
-#pdb.set_trace()
+
 #inverted matches (start bigger than stop)
 if len(new_index)>0:
     df4=df3[df3.index.isin(new_index)]
-#pdb.set_trace()
-    cols = df4.columns.tolist()
-#pdb.set_trace()
-    cols=[cols[0]]+cols[-1:]+[cols[1]]
-    df4=df4[cols]
-#normal order
-    df5=df3[df3.index.isin(new_index2)]
 
-    df6=concat([df5,df4],axis=1)
+    cols = df4.columns.tolist()
+
+    cols=[cols[0]]+cols[-1:]+[cols[1]]
+    df4=df4[cols].T.reset_index(drop=True).T
+#normal order
+    df5=df3[df3.index.isin(new_index2)].T.reset_index(drop=True).T
+
+    df6=df5.append(df4)
+
 else:
     df6=df5
-pdb.set_trace()
+
 #------------------------------------------------------------------------------------------
 
 
 
 
-#save total file for plotting -t option
-with open(output2_file,'w') as output2:
+#save IS regions bed format
+with open(output_file,'w') as output2:
     df6.to_csv(output2, sep='\t', index=False, header=None)
 
 

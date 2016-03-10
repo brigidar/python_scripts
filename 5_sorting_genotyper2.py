@@ -2,11 +2,11 @@
 #########################################################################################
 #											#
 # Name	      :	5_sorting_genotyper2.py								#
-# Version     : 1.5									#
+# Version     : 1.6									#
 # Project     : SNP table downstream analysis						#
 # Description : Script to summarize the genotyper output and classify according to groups etc. for tables that use * instead of Stop for stop codons		#
 # Author      : Brigida Rusconi								#
-# Date        : February   1st, 2016							#
+# Date        : March 10th, 2016							#
 #											#
 #########################################################################################
 
@@ -216,19 +216,16 @@ for i,n in enumerate(mu_int['snp_total']):
 mu4=mu3.T
 mu4.insert(mu4.columns.size, 'intergenic', counter)
 mu5=mu4.T
-#pdb.set_trace()
 #------------------------------------------------------------------------------------------------------------
 
 test5=concat([test4,mu5], axis=1, join_axes=[test.index])
 test5=test5.T
-#pdb.set_trace()
 test5.insert(0,'total',tot)
 col=['SNPs']+[n for n in nl]+['genes']+['stop_gain']+['stop_loss']+['hypothetical proteins']+[n for n in ti_n2]+['multiallelic']
 test5.insert(0, 'header',col)
 test6 = test5.fillna('0').set_index('header').astype('float64')
 #remove count of intergenic in gene name
 test6.loc['genes','intergenic']=0
-#pdb.set_trace()
 #remove syn stop mutations
 names=[]
 for i in test6.columns.values:
@@ -257,7 +254,7 @@ test6.insert(test6.columns.size,'genic',genic)
 #calculate percentage
 perc=test6.copy(deep=True)
 perc2=DataFrame(index=[test6.index])
-#adds percentage column after each column first row is percentage compared to total other rows are percentage compared to subcategory (SYN, NSYN. etc) have to add number of multiallelic to have the right amount
+#calculate percentage for each value
 for i in range(0,test6.columns.size):
     mol=[n for n in (test6.iloc[:,i] / test6.iloc[0,i]  * 100)]
     # since transition and transversion are separate for the multiallelic states the total has to be double for two state does not account for 3 state yet.
@@ -265,19 +262,18 @@ for i in range(0,test6.columns.size):
     mol2=[test6.iloc[0,i]/test6.loc[test6.index[0],'total']*100]
     mol1.append(mol[-1])
     mol3=mol2+mol[1:-3]+mol1
-    perc.insert(i+i+1,('% '+ str(test6.columns[i])),mol3)
     perc2.insert(i,('% '+ str(test6.columns[i])),mol3)
-
+#pdb.set_trace()
 #------------------------------------------------------------------------------------------------------------
 
-#save summary table with percentage
+#save summary table
 with open(output_file ,'w') as output:
     perc.to_csv(output, sep='\t')
 #------------------------------------------------------------------------------------------------------------
 
-#save summary only percentage with sorted index
+#save summary only percentage
 with open("percentage_summary.txt" ,'w') as output:
-    perc2.T.sort_index().to_csv(output, sep='\t')
+    perc2.to_csv(output, sep='\t')
 #------------------------------------------------------------------------------------------------------------
 
 #summary of all groups and positions and genome names #http://wesmckinney.com/blog/filtering-out-duplicate-dataframe-rows/
@@ -299,24 +295,24 @@ lsp2=lsp.reset_index(level=[1,2])
 lsp2.rename(columns={0:'count_PI'}, inplace=True)
 #------------------------------------------------------------------------------------------------------------
 
-#take the refpos that match that group and put them with the molecule name
-refpos_list=[]
-mol_list=[]
-grouped=df.groupby(['Group', 'syn?',])
-for item in grouped['refpos']:
-    rf=[str(n) for n in item[1]]
-    refpos_list.append('/'.join(rf))
-for i in grouped['molecule']:
-    mf=[str(n) for n in i[1]]
-    #only unique value no duplicates
-    mol_list.append(''.join(set(mf)))
-ps=[]
+#take the refpos that match that group and put them with the molecule names
 
-for v,i in enumerate(mol_list):
-         ps.append("%s:%s" % (i,refpos_list[v]) )
+blist=[]
+grouped=df.groupby(['Group', 'syn?'])
+
+for name, group in grouped:
+    #restart the list for each subgrouping according to the type of mutation
+    mol_list=[]
+    for a,b in group.groupby(['molecule']):
+        rf=[str(n) for n in b['refpos']]
+        mol_list.append(a+ ':'+'/'.join(rf))
+
+    blist.append(', '.join(mol_list))
+
 
 #concatenates based on the longer index with the repeated groups with the join_axes command
 lst=concat([ls2, unique],axis=1, join_axes=[ls2.index])
+
 ni_ref=[]
 #------------------------------------------------------------------------------------------------------------
 
@@ -326,7 +322,6 @@ for i in lst.index:
     m=[]
     pat = ""
     
-    #if lst.loc[i, 'Pattern'].__class__ == 'str':
     if isinstance(lst.loc[i, 'Pattern'], str):
     
         pat = lst.loc[i, 'Pattern']
@@ -343,19 +338,20 @@ for i in lst.index:
         ni_ref.append(ref_genome)
     else:
         ni_ref.append('--')
-            
+
 #------------------------------------------------------------------------------------------------------------
 
 
 #remove old PI column
-lst.insert(5, 'refpos split up',ps)
+lst.insert(5, 'refpos split up',blist)
 lst.insert(lst.columns.size,'ref_genome', ni_ref)
 #------------------------------------------------------------------------------------------------------------
 
-
+sum_g=concat([lst.iloc[:,0:2],lst.iloc[:,4:]], axis=1)
+#pdb.set_trace()
 #save summary for group
 with open("summary_groups.txt",'w') as output:
-    lst.to_csv(output, sep='\t')
+    sum_g.to_csv(output, sep='\t')
 
 
 

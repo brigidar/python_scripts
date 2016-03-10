@@ -68,7 +68,7 @@ for i in range(0,df3.index.size):
         new_index2.append(df3.index[i])
 
 
-
+df5=df3[df3.index.isin(new_index2)].T.reset_index(drop=True).T
 #inverted matches (start bigger than stop)
 if len(new_index)>0:
     df4=df3[df3.index.isin(new_index)]
@@ -78,7 +78,7 @@ if len(new_index)>0:
     cols=[cols[0]]+cols[-1:]+[cols[1]]
     df4=df4[cols].T.reset_index(drop=True).T
 #normal order
-    df5=df3[df3.index.isin(new_index2)].T.reset_index(drop=True).T
+
 
     df6=df5.append(df4)
 

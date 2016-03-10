@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 #########################################################################################
 #											#
 # Name	      :	1_merge_2.py								#
@@ -11,18 +11,15 @@
 #########################################################################################
 
 
-#!/usr/bin/env python
+
 # The merged table doesn't have dn/ds, snps/gene length, and transistion/transversion columns these will be calculated after the sorting script
 
 #------------------------------------------------------------------------------------------
 
-import argparse, os, sys, csv, IPython
-import pandas
+import argparse, os, sys, csv
 import pdb
 import glob
-import Bio
 from pandas import *
-from IPython import get_ipython
 from glob import glob
 from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna

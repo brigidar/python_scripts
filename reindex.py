@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python
 #########################################################################################
 #											#
 # Name	      :	reindex.py								#
@@ -10,18 +10,14 @@
 #											#
 #########################################################################################
 
-#!/usr/bin/env python
+
 #------------------------------------------------------------------------------------------
 
 
-import argparse, os, sys, csv, IPython
-import pandas
+import argparse, os, sys, csv
 import pdb
 import numpy as np
 from pandas import *
-from IPython import get_ipython
-import matplotlib.pyplot as plt
-from pandas.util.testing import assert_frame_equal
 #------------------------------------------------------------------------------------------
 
 

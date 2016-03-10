@@ -12,8 +12,7 @@
 #########################################################################################
 
 
-import argparse, os, sys, csv, IPython
-import pandas
+import argparse, os, sys, csv
 import pdb
 from pandas import *
 

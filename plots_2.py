@@ -1,8 +1,8 @@
-
+#!/usr/bin/env python
 #########################################################################################
 #											#
 # Name	      :	plots_2.py								#
-# Version     : 0.1									#
+# Version     : 0.2									#
 # Project     : plot snp according to sliding window							#
 # Description : provide size of genome and sliding window to plot the snps along the chromosome axis		#
 # Author      : Brigida Rusconi								#

@@ -1,22 +1,18 @@
-
+#!/usr/bin/env python
 #########################################################################################
 #											#
 # Name	      :	6_select_strain.py								#
-# Version     : 1.1									#
+# Version     : 1.12									#
 # Project     : SNP tables downstream analysis							#
 # Description : this script allows you to give a list of strain names and get the genotype profiles that match that list		#
 # Author      : Brigida Rusconi								#
-# Date        : October 21, 2015							#
+# Date        : March 10th, 2016							#
 #											#
 ##########################################################################################
-#this script allows you to give a list of strain names and get the genotype profiles that match that list
 
 import argparse, os, sys, csv
-import pandas
 import pdb
 from pandas import *
-import matplotlib.pyplot as plt
-from pandas.util.testing import assert_frame_equal
 #------------------------------------------------------------------------------------------
 
 #output and input file name

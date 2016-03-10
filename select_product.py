@@ -1,20 +1,22 @@
-#Adapted from gbk_to_gff
-# Brigida Rusconi, UTSA
-# October 8 2015
-# Finds all CDS that match the key words provided in the comma separated argument -k in the product description
-# adds a given number of bases on each side of the transcript for the exclusion set
-
-
-
 #!/usr/bin/env python
+#########################################################################################
+# Adapted from gbk_to_gff
+
+# Name        :select_product.py
+# Version     : 0.2
+# Description :Finds all CDS that match the key words provided in the comma separated argument -k in the product description and adds a given number of bases on each side of the transcript for the exclusion set
+# Date        :March 10th, 2016
+# Author      : Brigida Rusconi
+#
+# #########################################################################################
 
 
-import os
-import re
-import sys
+
+
+
+import os, re, sys, argparse
 import collections
 import pdb
-import argparse
 from Bio import SeqIO
 
 def open_file(fname):

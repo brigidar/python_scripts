@@ -1,26 +1,24 @@
+#!/usr/bin/env python
 #########################################################################################
 #											#
 # Name	      :	reorder_tree.py							#
-# Version     : 1.0									#
+# Version     : 1.1									#
 # Project     : SNP Genotyper							#
 # Description : Script to reorder SNP output by phylogeny.
 # Author      : Brigida Rusconi								#
-# Date        : Fenruary 10, 2016							#
+# Date        : March 10, 2016							#
 #											#
 #########################################################################################
 
 # for isin information
 #http://pandas.pydata.org/pandas-docs/stable/indexing.html
 
-#!/usr/bin/env python
+
 
 
 import argparse, os, sys, csv
-import pandas
 import pdb
 from pandas import *
-from pandas.util.testing import assert_frame_equal
-import Bio
 from Bio import Phylo
 
 

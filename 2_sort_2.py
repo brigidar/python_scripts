@@ -3,11 +3,11 @@
 #########################################################################################
 #											#
 # Name	      :	2_sort_2.py								#
-# Version     : 0.1									#
+# Version     : 0.2									#
 # Project     : sort & merge SNP tables							#
 # Description : Script to sort out no hits, indels, identical lines and double hits		#
 # Author      : Brigida Rusconi								#
-# Date        : March 9th, 2016							#
+# Date        : March 14th, 2016							#
 #											#
 #########################################################################################
 #for replacement of a given value with NaN
@@ -290,17 +290,26 @@ tab2=[]
 #pdb.set_trace()
 for i in range(0,final2.index.size):
     tab=[]
-    tab.append(final2.iloc[i,0])
-    tab.append(''.join(final2.iloc[i,1:]))
+
+    if ':' in final2.iloc[i,0]:
+
+        tab.append(final2.iloc[i,0].split(':')[1])
+        tab.append(''.join(final2.iloc[i,1:]))
+    else:
+        tab.append(final2.iloc[i,0])
+        tab.append(''.join(final2.iloc[i,1:]))
+
+
     tab2.append(tab)
 
 with open('table', 'w') as t:
     for i in range(0,len(tab2)):
         t.write("\t".join(tab2[i])+"\n")
-    with open('table','rU') as input:
-        with open(output_file,'w') as output:
-            sequences = SeqIO.parse(input, "tab")
-            count = SeqIO.write(sequences, output, "fasta")
+
+with open('table','rU') as input:
+    with open(output_file,'w') as output:
+        sequences = SeqIO.parse(input, "tab")
+        count = SeqIO.write(sequences, output, "fasta")
 
 #------------------------------------------------------------------------------------------
 

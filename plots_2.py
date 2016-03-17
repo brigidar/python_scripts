@@ -2,11 +2,11 @@
 #########################################################################################
 #											#
 # Name	      :	plots_2.py								#
-# Version     : 0.2									#
+# Version     : 0.3									#
 # Project     : plot snp according to sliding window							#
 # Description : provide size of genome and sliding window to plot the snps along the chromosome axis		#
 # Author      : Brigida Rusconi								#
-# Date        : March 9th, 2016							#
+# Date        : March 17th, 2016							#
 #											#
 #########################################################################################
 # sliding window function definition from old python docs
@@ -15,8 +15,9 @@
 import argparse, os, sys, csv
 import pdb
 from pandas import *
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
-from pylab import figure, axes, pie, title, show
 from itertools import islice
 #length of chromosome to have a x scale and input file
 parser = argparse.ArgumentParser()

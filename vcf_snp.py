@@ -47,11 +47,12 @@ df3=read_csv(input_file2,sep='\t', dtype=object, names=['#CHROM','POS'])
 #pdb.set_trace()
 #get the positions that are missing
 if df.index.size!= df3.index.size:
-    df4=df3[~df3.POS.isin(df.POS)]
+    df4=df3[df3.POS.isin(df['POS'])]
 #pdb.set_trace()
     df4=df4.set_index('POS')
     df=df.set_index('POS')
     df2=concat([df,df4], axis=1)
+
 #if there is no information for a loci the position is dropped so it fills the nan with N
     df5=df2.iloc[:, 2:4].fillna('N')
     df5=df5.reindex(df3.POS)
@@ -66,6 +67,7 @@ else:
 #------------------------------------------------------------------------------------------
 #replaces the . with the nucleotide call of the reference also deals with multiallelic states calling them N
 ref_list=[]
+#pdb.set_trace()
 for i in range(0,df5.index.size):
     if df5.iloc[i,1]==".":
         ref_list.append(df5.iloc[i,0][0])

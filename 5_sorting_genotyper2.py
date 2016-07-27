@@ -109,6 +109,8 @@ for i,v in enumerate(ti_n):
                 ti_g2[1]=ti_g2[1] + ti_g[i]
 
 
+if len(ti_n2)>2:
+    sys.exit("error in transition/transversion column check snp table")
 
 
 #------------------------------------------------------------------------------------------------------------
@@ -215,7 +217,6 @@ mu4=mu3.T
 mu4.insert(mu4.columns.size, 'intergenic', counter)
 mu5=mu4.T
 #------------------------------------------------------------------------------------------------------------
-
 test5=concat([test4,mu5], axis=1, join_axes=[test.index])
 test5=test5.T
 test5.insert(0,'total',tot)

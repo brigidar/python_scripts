@@ -7,7 +7,7 @@
 # Project     : sort & merge SNP tables							#
 # Description : Script to sort out no hits, indels, identical lines and double hits		#
 # Author      : Brigida Rusconi								#
-# Date        : March 14th, 2016							#
+# Date        : August 23rd, 2016							#
 #											#
 #########################################################################################
 #for replacement of a given value with NaN
@@ -29,7 +29,9 @@
 
 import argparse, os, sys, csv
 import pdb
-import numpy as np
+import numpy
+from numpy import *
+import Bio
 from pandas import *
 from Bio.Seq import Seq
 from Bio.Alphabet import generic_dna
@@ -412,7 +414,7 @@ for i in fin_codon:
         aa = []
         #makes an amino acid out of each codon the if all() statement checks that all nucleotides are ATGC. If there is anything else the codon will not be translated and will be identified as unknown.
         for p in codons:
-            if all(z in bases for z in p)==True:
+            if all([z in bases for z in p])==True:
                 aa.append(str(Seq(p, generic_dna).translate(table=11)))
             else:
                 aa.append('Unknown')
@@ -479,6 +481,36 @@ for i,v in enumerate(snps_gene2):
             fin3['snps_per_gene'][l]=snps_gene2[i][1]
 fin3=fin3.reset_index()
 
+
+for x,i in enumerate(fin3.snps_per_gene):
+    if i != 'intergenic':
+            fin3['snps/gene_length'][x]=float(i)/float(fin3.gene_length[x])
+
+
+dn=fin3.groupby('gene_name')['syn?']
+counter=list()
+for name,group in dn:
+    c1=0
+    c2=0
+    for x in group:
+        if '/' in x:
+            for n in x.split('/'):
+                if n=='NSYN':
+                    c1=c1+1
+                else:
+                    c2=c2+1
+        else:
+            if x=='NSYN':
+                c1=c1+1
+            else:
+                c2=c2+1
+    if c2 != 0:
+        counter.append(repeat((c1/c2),len(group)).tolist())
+    else:
+        counter.append(repeat(0,len(group)).tolist())
+
+flat_dn=[n for item in counter for n in item]
+fin3['dn/ds'].update(Series(flat_dn))
 
 #------------------------------------------------------------------------------------------
 #pdb.set_trace()

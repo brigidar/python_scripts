@@ -3,11 +3,11 @@
 #########################################################################################
 #											#
 # Name	      :	2_sort_2.py								#
-# Version     : 0.2									#
+# Version     : 0.3									#
 # Project     : sort & merge SNP tables							#
 # Description : Script to sort out no hits, indels, identical lines and double hits		#
 # Author      : Brigida Rusconi								#
-# Date        : August 23rd, 2016							#
+# Date        : October 28th, 2016							#
 #											#
 #########################################################################################
 #for replacement of a given value with NaN
@@ -512,6 +512,9 @@ for name,group in dn:
 flat_dn=[n for item in counter for n in item]
 fin3['dn/ds'].update(Series(flat_dn))
 
+for i,f in enumerate(fin3.columns):
+    if 'SNP_hit' in f:
+        fin3.drop(axis=1,inplace=True, labels=f)
 #------------------------------------------------------------------------------------------
 #pdb.set_trace()
 

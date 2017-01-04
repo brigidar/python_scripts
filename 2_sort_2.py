@@ -44,12 +44,14 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-o', '--output', help="fasta snps")
 parser.add_argument('-s', '--snp_table', help="snp table to sort")
 parser.add_argument('-t', '--total', help="inverted table to look at", default= "snp_filtered_table.txt")
+parser.add_argument('-r','--remove', help="remove non-canonical nucleotides", default= "False")
 
 
 args = parser.parse_args()
 output_file = args.output
 input_file = args.snp_table
 output2_file = args.total
+remove=args.remove
 #------------------------------------------------------------------------------------------
 
 
@@ -173,10 +175,16 @@ slash2=concat([df3,slash], axis=1, join_axes=[slash.index])
 
 # remove identical line
 bases=['A','C','G','T']
+cols=slash2.columns
 
-for i in bases:
-    slash2=slash2[slash2 !=i].dropna(how='all').fillna(i)
-print "identical lines removed: SNP left " + str( slash2.index.size)
+# remove non-canononical snps (optional)
+if remove=="True":
+    slash3=slash2[~slash2[cols].isin(bases).all(axis=1)].dropna(how='all')
+    slash2=slash2[~slash2.index.isin(slash3.index)]
+else:
+    for i in bases:
+        slash2=slash2[slash2 !=i].dropna(how='all').fillna(i)
+    print "identical lines removed: SNP left " + str( slash2.index.size)
 #------------------------------------------------------------------------------------------
 
 #replaces lines with indel
@@ -513,10 +521,9 @@ flat_dn=[n for item in counter for n in item]
 fin3['dn/ds'].update(Series(flat_dn))
 
 for i,f in enumerate(fin3.columns):
-    if 'SNP_hit' in f:
+    if 'num_hits' in f:
         fin3.drop(axis=1,inplace=True, labels=f)
 #------------------------------------------------------------------------------------------
-#pdb.set_trace()
 
 
 #save total file for plotting -t option

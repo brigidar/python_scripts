@@ -113,11 +113,13 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-o', '--output', help="combined snp table and add csv extension to name")
 parser.add_argument('-g', '---genbank', help="genbank file of reference genome")
 parser.add_argument('-t', '---translation_table', help="provide translation table number", default=11)
+parser.add_argument('-i', '--input_path_ile', help="gets path to input files")
 args = parser.parse_args()
 output_file = args.output
 genbank=args.genbank
 t_t=args.translation_table
-files = glob('*.txt')
+input=args.input_path
+
 
 # -------------------------------concatenates vcf files-------------------------------
 data = [read_csv(f, sep ='\t', header=None, dtype=object) for f in files]
